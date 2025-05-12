@@ -6,6 +6,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// adicionando comentário
+
 const conn = require("./database/conn")
 conn();
 
