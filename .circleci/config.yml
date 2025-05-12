@@ -2,17 +2,15 @@ version: 2.1
 jobs:
   run_tests:
     docker:
-     - image: circleci/node@22.15.0
+      - image: cimg/node:18.12.1
     steps:
       - checkout
       - run:
           name: Install dependencies
-          command:
-            npm install
+          command: npm install
       - run:
           name: Run run_tests
-          command:
-            npm run test
+          command: npm run test
       - store_test_results:
           path: test_results
 workflows:
