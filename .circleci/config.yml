@@ -1,6 +1,7 @@
 version: 2.1
+
 jobs:
-  run_tests:
+  build:
     docker:
       - image: cimg/node:18.12.1
     steps:
@@ -15,12 +16,24 @@ jobs:
       - save_cache:
           paths:
             - node_modules
-          key: 
+          key: v1-deps-{{ checksum "package-lock.json" }}
+
+  run_tests:
+    docker:
+      - image: cimg/node:18.12.1
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
             - v1-deps-{{ checksum "package-lock.json" }}
       - run:
           name: Run tests
           command: npm run test
+
 workflows:
-  build_test:
+  build_and_test:
     jobs:
-      - run_tests
+      - build
+      - run_tests:
+          requires:
+            - build
